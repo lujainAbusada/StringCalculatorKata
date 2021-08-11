@@ -10,12 +10,13 @@ namespace StringCalculatorKata
 
         public int Add(string stringOfNumbers)
         {
-            switch (stringOfNumbers.Length)
+            int sum = 0;
+            var listOfNumbers = stringOfNumbers.Split(',');
+            foreach(string number in listOfNumbers)
             {
-                case 1: return Int32.Parse(stringOfNumbers);
-                case 3: return (int)(Char.GetNumericValue(stringOfNumbers[0]) + Char.GetNumericValue(stringOfNumbers[2]));
-                default: return 0;
+                sum+= Int32.Parse(number);
             }
+            return sum;
         }
     }
 }
