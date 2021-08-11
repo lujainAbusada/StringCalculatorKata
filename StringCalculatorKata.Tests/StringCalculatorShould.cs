@@ -33,5 +33,17 @@ namespace StringCalculatorKata.Tests
             //Assert
             Assert.Equal(expectedSum, actualSum);
         }
+        [Theory]
+        [InlineData("1\n2\n4,5,6", 18)]
+        [InlineData("5\n9", 14)]
+        public void AddNumbersSeperatedByCommaOrNewLine(string stringOfNumbers, int expectedSum)
+        {
+            //Arrange
+            var stringCalculator = new StringCalculator();
+            //Act
+            var actualSum = stringCalculator.Add(stringOfNumbers);
+            //Assert
+            Assert.Equal(expectedSum, actualSum);
+        }
     }
 }
