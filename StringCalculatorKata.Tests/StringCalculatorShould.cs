@@ -77,5 +77,16 @@ namespace StringCalculatorKata.Tests
             .Should().Throw<Exception>()
             .WithMessage("Negatives are not allowed : -1,-2");
         }
+
+        [Fact]
+        public void IgnoreBigNumbers()
+        {
+            //Arrange
+            var listOFNumbers = new List<int> { 1,1001 , 3 };
+            var bigNumberChecker = new BigNumberChecker();
+            var actualSum = _stringCalculator.Add(bigNumberChecker.IgnoreBigNumbers(listOFNumbers));
+            //Assert
+            Assert.Equal(4, actualSum);
+        }
     }
 }
