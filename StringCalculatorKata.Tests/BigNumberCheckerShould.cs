@@ -9,7 +9,7 @@ namespace StringCalculatorKata.Tests
     public class BigNumberCheckerShould
     {
         [Fact]
-        public void IgnoreBigNumbers()
+        public void IgnoreBigNumbers_FromAListThatContainsABigNumber_ReturnListWithoutBigNumbers()
         {
             //Arrange
             var listOfNumbers = new List<int> { 1, 1001, 3 };

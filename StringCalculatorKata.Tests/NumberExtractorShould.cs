@@ -8,7 +8,7 @@ namespace StringCalculatorKata.Tests
     {
         [Theory]
         [InlineData("//;\n1;2;3")]
-        public void FindListOFNumbers(string stringOfNumbersAndDelimeters)
+        public void FindListOFNumbers_FromString(string stringOfNumbersAndDelimeters)
         {
             //Arrange
             var delimeterExtractor = new Mock<DelimeterExtractor>();
