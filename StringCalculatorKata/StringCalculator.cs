@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace StringCalculatorKata
@@ -25,8 +26,15 @@ namespace StringCalculatorKata
         public int FindSum(string stringOfNumebersAndDelimiters)
         {
             List<int> listOfNumbers = _bigNumberChecker.IgnoreBigNumbers(_numberExtractor.FindListOfNumbers(stringOfNumebersAndDelimiters, _delimeterExtractor.FindDelimeter(stringOfNumebersAndDelimiters)));
-            _negativeNumberChecker.CheckForNegativeNumbers(listOfNumbers);
-            return Add(listOfNumbers);
+            try
+            {
+                _negativeNumberChecker.CheckForNegativeNumbers(listOfNumbers);
+                return Add(listOfNumbers);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public virtual int Add(List<int> listOfNumbers)

@@ -8,7 +8,7 @@ namespace StringCalculatorKata.Tests
     {
         [Theory]
         [InlineData("//;\n0;1;2\n3")]
-        public void FindDelimeterList(string stringOfNumbersAndDelimeters)
+        public void FindDelimeterList_FromStringOfNumbersAndDelimeters(string stringOfNumbersAndDelimeters)
         {
             //Arrange
             var expectedDelimeterList = new List<char> { '\n', ',', ';' };
