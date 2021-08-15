@@ -1,35 +1,67 @@
+using FluentAssertions;
+using Moq;
+using System.Collections.Generic;
 using Xunit;
 
 namespace StringCalculatorKata.Tests
 {
     public class StringCalculatorShould
     {
+        private readonly DelimeterExtractor _delimeterExtractor;
+        private readonly NumberExtractor _numberExtractor;
+        private readonly StringCalculator _stringCalculator;
+
+
+        public StringCalculatorShould()
+        {
+            _delimeterExtractor = new DelimeterExtractor();
+            _numberExtractor = new NumberExtractor();
+            _stringCalculator = new StringCalculator();
+        }
+
         [Theory]
-        [InlineData("0,1", 1)]
-        [InlineData("0,2", 2)]
-        [InlineData("1,2", 3)]
-        [InlineData("5,9", 14)]
-        public void AddUpToTwoNumbersInAString(string stringOfNumbers, int expectedSum)
+        [InlineData("//;\n0;1;2\n3")]
+        public void FindDelimeterList(string stringOfNumbersAndDelimeters)
         {
             //Arrange
-            var stringCalculator = new StringCalculator();
+            var expectedDelimeterList = new List<char> { '\n', ',', ';' };
             //Act
-            var actualSum = stringCalculator.Add(stringOfNumbers);
+            var actualSum = _delimeterExtractor.FindDelimeter(stringOfNumbersAndDelimeters);
+            //Assert
+            expectedDelimeterList.Should().BeEquivalentTo(actualSum);
+        }
+
+        [Theory]
+        [InlineData("//;\n1;2;3")]
+        public void FindListOFNumbers(string stringOfNumbersAndDelimeters)
+        {
+            //Arrange
+            var delimeterExtractor = new Mock<DelimeterExtractor>();
+            delimeterExtractor.Setup(x => x.FindDelimeter(stringOfNumbersAndDelimeters)).Returns(new List<char> { ';', '\n', ',' });
+            var numberExtractor = new NumberExtractor();
+            var collection = new List<int> { 1, 2, 3 };
+            //Act
+            var actualSum = numberExtractor.FindListOfNumbers(stringOfNumbersAndDelimeters, delimeterExtractor.Object.FindDelimeter(stringOfNumbersAndDelimeters));
+            //Assert
+            collection.Should().BeEquivalentTo(actualSum);
+        }
+
+        [Theory]
+        [InlineData("//;\n0;1;2;3", 6)]
+        public void AddNumbersSeperatedByCommaOrNewLine(string stringOfNumbers, int expectedSum)
+        {
+            //Act
+            var actualSum = _stringCalculator.Add(_numberExtractor.FindListOfNumbers(stringOfNumbers, _delimeterExtractor.FindDelimeter(stringOfNumbers)));
             //Assert
             Assert.Equal(expectedSum, actualSum);
         }
 
         [Theory]
-        [InlineData("0,1,2,0,9", 12)]
-        [InlineData("0,2,5", 7)]
-        [InlineData("1,2,4,5,6", 18)]
-        [InlineData("5,9", 14)]
-        public void AddUnlimitedNumbersInAString(string stringOfNumbers, int expectedSum)
+        [InlineData("//;\n0;1;2;3", 6)]
+        public void FindDelimiterAndAddNumbers(string stringOfNumbers, int expectedSum)
         {
-            //Arrange
-            var stringCalculator = new StringCalculator();
             //Act
-            var actualSum = stringCalculator.Add(stringOfNumbers);
+            var actualSum = _stringCalculator.Add(_numberExtractor.FindListOfNumbers(stringOfNumbers, _delimeterExtractor.FindDelimeter(stringOfNumbers)));
             //Assert
             Assert.Equal(expectedSum, actualSum);
         }
