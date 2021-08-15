@@ -8,85 +8,41 @@ namespace StringCalculatorKata.Tests
 {
     public class StringCalculatorShould
     {
-        private readonly DelimeterExtractor _delimeterExtractor;
-        private readonly NumberExtractor _numberExtractor;
-        private readonly StringCalculator _stringCalculator;
+        
 
-        public StringCalculatorShould()
-        {
-            _delimeterExtractor = new DelimeterExtractor();
-            _numberExtractor = new NumberExtractor();
-            _stringCalculator = new StringCalculator();
-        }
-
-        [Theory]
-        [InlineData("//;\n0;1;2\n3")]
-        public void FindDelimeterList(string stringOfNumbersAndDelimeters)
+        [Fact]
+        public void AddNumbers()
         {
             //Arrange
-            var expectedDelimeterList = new List<char> { '\n', ',', ';' };
+            var stringCalculator = new StringCalculator();
+            List<int> listOfNumbers = new List<int> { 1, 2, 3, 4 };
+            int expectedSum = 10;
             //Act
-            var actualSum = _delimeterExtractor.FindDelimeter(stringOfNumbersAndDelimeters);
+            var actualSum = stringCalculator.Add(listOfNumbers);
             //Assert
-            expectedDelimeterList.Should().BeEquivalentTo(actualSum);
+            Assert.Equal(expectedSum, actualSum);
         }
 
         [Theory]
-        [InlineData("//;\n1;2;3")]
-        public void FindListOFNumbers(string stringOfNumbersAndDelimeters)
+        [InlineData("//;\n0;1;2\n3;2000",6)]
+        public void FindSumFromString(string stringOfNumbersAndDelimiters , int excpectedSum)
         {
             //Arrange
+            var bigNumberChecker = new Mock<BigNumberChecker>();
+            bigNumberChecker.Setup(x => x.IgnoreBigNumbers(new List<int> { 1, 2, 3, 2000 })).Returns(new List<int> { 1,2,3});
             var delimeterExtractor = new Mock<DelimeterExtractor>();
-            delimeterExtractor.Setup(x => x.FindDelimeter(stringOfNumbersAndDelimeters)).Returns(new List<char> { ';', '\n', ',' });
-            var numberExtractor = new NumberExtractor();
-            var collection = new List<int> { 1, 2, 3 };
+            delimeterExtractor.Setup(x => x.FindDelimeter(stringOfNumbersAndDelimiters)).Returns(new List<char> { ';', '\n', ',' });
+            var numberExtractor = new Mock<NumberExtractor>();
+            numberExtractor.Setup(x => x.FindListOfNumbers(stringOfNumbersAndDelimiters, new List<char> { ',', '\n', ';' })).Returns(new List<int> { 1, 2, 3,2000 });
+            var negativeNumberChecker = new Mock<NegativeNumberChecker>();
+            negativeNumberChecker.Setup(x => x.CheckForNegativeNumbers(new List<int> { 1, 2, 3, 2000 })).Throws<Exception>();
             //Act
-            var actualSum = numberExtractor.FindListOfNumbers(stringOfNumbersAndDelimeters, delimeterExtractor.Object.FindDelimeter(stringOfNumbersAndDelimeters));
+            StringCalculator _stringCalculator = new StringCalculator(negativeNumberChecker.Object,bigNumberChecker.Object, numberExtractor.Object, delimeterExtractor.Object);
+            int actualSum= _stringCalculator.FindSum(stringOfNumbersAndDelimiters);
             //Assert
-            collection.Should().BeEquivalentTo(actualSum);
+            Assert.Equal(excpectedSum, actualSum);
+
         }
 
-        [Theory]
-        [InlineData("//;\n0;1;2;3", 6)]
-        public void AddNumbersSeperatedByCommaOrNewLine(string stringOfNumbers, int expectedSum)
-        {
-            //Act
-            var actualSum = _stringCalculator.Add(_numberExtractor.FindListOfNumbers(stringOfNumbers, _delimeterExtractor.FindDelimeter(stringOfNumbers)));
-            //Assert
-            Assert.Equal(expectedSum, actualSum);
-        }
-
-        [Theory]
-        [InlineData("//;\n0;1;2;3", 6)]
-        public void FindDelimiterAndAddNumbers(string stringOfNumbers, int expectedSum)
-        {
-            //Act
-            var actualSum = _stringCalculator.Add(_numberExtractor.FindListOfNumbers(stringOfNumbers, _delimeterExtractor.FindDelimeter(stringOfNumbers)));
-            //Assert
-            Assert.Equal(expectedSum, actualSum);
-        }
-
-        [Fact]
-        public void ThrowExceptionWhenANumberIsNegative()
-        {
-            //Arrange
-            var listOFNumbers = new List<int> { -1, -2, 3 };
-            var checkNumbers = new NegativeNumberChecker();
-            //Assert
-            checkNumbers.Invoking(x => x.CheckForNegativeNumbers(listOFNumbers))
-            .Should().Throw<Exception>()
-            .WithMessage("Negatives are not allowed : -1,-2");
-        }
-
-        [Fact]
-        public void IgnoreBigNumbers()
-        {
-            //Arrange
-            var listOFNumbers = new List<int> { 1,1001 , 3 };
-            var bigNumberChecker = new BigNumberChecker();
-            var actualSum = _stringCalculator.Add(bigNumberChecker.IgnoreBigNumbers(listOFNumbers));
-            //Assert
-            Assert.Equal(4, actualSum);
-        }
     }
 }

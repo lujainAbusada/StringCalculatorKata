@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace StringCalculatorKata
 {
-    public class BigNumberChecker:INumberChecker
+    public class BigNumberChecker
     {
-        public List<int> IgnoreBigNumbers(List<int> listOfNumbers)
+        public virtual List<int> IgnoreBigNumbers(List<int> listOfNumbers)
         {
             return (from num in listOfNumbers
-                    where num <= 1000
+                    where num <= Constants.LARGEST_POSSIBLE_NUMBER
                     select num).ToList<int>();
         }
     }

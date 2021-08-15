@@ -4,13 +4,12 @@ using System.Linq;
 
 namespace StringCalculatorKata
 {
-    public class NegativeNumberChecker : INumberChecker
+    public class NegativeNumberChecker
     {
         public virtual void CheckForNegativeNumbers(List<int> listOfNumbers)
         {
             if (ExtractNegativeNumbers(listOfNumbers).Count() > 0)
                 throw new Exception($"Negatives are not allowed : {string.Join(",", ExtractNegativeNumbers(listOfNumbers).OrderByDescending(i => i))}");
-
         }
 
         public virtual List<int> ExtractNegativeNumbers(List<int> listOfNumbers)
