@@ -5,15 +5,21 @@ namespace StringCalculatorKata
 {
     public class NumberExtractor
     {
+        List<int> _listOfNumbers = new List<int>();
+        private string _stringOfNumbers;
+
         public List<int> FindListOfNumbers(string stringOfNumbersAndDelimeter, List<char> listOfDelimeters)
-        {
-            var stringOfNumbers = stringOfNumbersAndDelimeter.Split("\n", 2)[1];
-            List<int> listOfNumbers = new List<int>();
-            foreach (string number in stringOfNumbers.Split(listOfDelimeters.ToArray()))
+        {   
+            if (stringOfNumbersAndDelimeter.Contains(Constants._newDelimiterSign))
+                 _stringOfNumbers = stringOfNumbersAndDelimeter.Split(Constants._newLine, 2)[1];
+            else
+                _stringOfNumbers = stringOfNumbersAndDelimeter;
+            
+            foreach (string number in _stringOfNumbers.Split(listOfDelimeters.ToArray()))
             {
-                listOfNumbers.Add(Int16.Parse(number));
+                _listOfNumbers.Add(Int16.Parse(number));
             }
-            return listOfNumbers;
+            return _listOfNumbers;
         }
     }
 }
