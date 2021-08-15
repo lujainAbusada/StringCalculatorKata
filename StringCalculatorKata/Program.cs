@@ -8,15 +8,15 @@ namespace StringCalculatorKata
     class Program
     {
         static void Main(string[] args)
-        {   
-            string _stringOfNumebersAndDelimiters =  System.IO.File.ReadAllText(@"C:\Users\hp\source\repos\StringCalculatorKata\Numbers.txt");
-            Console.WriteLine($"The text in file: \n {_stringOfNumebersAndDelimiters}\n-----------------");
-            NegativeNumberChecker _negativeNumberChecker = new NegativeNumberChecker();
-            BigNumberChecker _bigNumberChecker = new BigNumberChecker();
-            NumberExtractor _numberExtractor = new NumberExtractor();
-            DelimeterExtractor _delimeterExtractor = new DelimeterExtractor();
-            StringCalculator stringCalculator = new StringCalculator(_stringOfNumebersAndDelimiters, _negativeNumberChecker, _bigNumberChecker, _numberExtractor, _delimeterExtractor);
-            Console.WriteLine($"Sum={stringCalculator.FindSum()}");
+        {
+            string stringOfNumebersAndDelimiters = System.IO.File.ReadAllText(@"C:\Users\hp\source\repos\StringCalculatorKata\Numbers.txt");
+            Console.WriteLine($"The text in file: \n {stringOfNumebersAndDelimiters}\n-----------------");
+            NegativeNumberChecker negativeNumberChecker = new NegativeNumberChecker();
+            BigNumberChecker bigNumberChecker = new BigNumberChecker();
+            NumberExtractor numberExtractor = new NumberExtractor();
+            DelimeterExtractor delimeterExtractor = new DelimeterExtractor();
+            StringCalculator stringCalculator = new StringCalculator(negativeNumberChecker, bigNumberChecker, numberExtractor, delimeterExtractor);
+            Console.WriteLine($"Sum={stringCalculator.FindSum(stringOfNumebersAndDelimiters)}");
+        }
     }
-}
 }

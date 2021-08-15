@@ -9,8 +9,8 @@ namespace StringCalculatorKata
 
         public virtual List<char> FindDelimeter(string stringOfNumbersAndDelimeter)
         {
-            if (stringOfNumbersAndDelimeter.Contains(Constants._newDelimiterSign))
-                _listOfDelimiters.Add(stringOfNumbersAndDelimeter.Split(Constants._newLine)[0].ElementAt(2));
+            if (stringOfNumbersAndDelimeter.Contains(Constants.NEW_DELIMITER_SIGN))
+                _listOfDelimiters.Add(stringOfNumbersAndDelimeter.Split(Constants.NEW_LINE)[0].ElementAt(2));
 
             return _listOfDelimiters;
         }

@@ -8,13 +8,13 @@ namespace StringCalculatorKata
         List<int> _listOfNumbers = new List<int>();
         private string _stringOfNumbers;
 
-        public List<int> FindListOfNumbers(string stringOfNumbersAndDelimeter, List<char> listOfDelimeters)
-        {   
-            if (stringOfNumbersAndDelimeter.Contains(Constants._newDelimiterSign))
-                 _stringOfNumbers = stringOfNumbersAndDelimeter.Split(Constants._newLine, 2)[1];
+        public virtual List<int> FindListOfNumbers(string stringOfNumbersAndDelimeter, List<char> listOfDelimeters)
+        {
+            if (stringOfNumbersAndDelimeter.Contains(Constants.NEW_DELIMITER_SIGN))
+                _stringOfNumbers = stringOfNumbersAndDelimeter.Split(Constants.NEW_LINE, 2)[1];
             else
                 _stringOfNumbers = stringOfNumbersAndDelimeter;
-            
+
             foreach (string number in _stringOfNumbers.Split(listOfDelimeters.ToArray()))
             {
                 _listOfNumbers.Add(Int16.Parse(number));

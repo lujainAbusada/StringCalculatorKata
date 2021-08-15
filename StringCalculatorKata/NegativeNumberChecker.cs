@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace StringCalculatorKata
 {
-    public class NegativeNumberChecker : INumberChecker
+    public class NegativeNumberChecker
     {
         public virtual void CheckForNegativeNumbers(List<int> listOfNumbers)
         {

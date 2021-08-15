@@ -2,8 +2,8 @@
 {
     public class Constants
     {
-        public const string _newDelimiterSign = "//";
-        public const char _newLine = '\n';
-        public const int largestPossibleNumber = 1000;
+        public const string NEW_DELIMITER_SIGN = "//";
+        public const char NEW_LINE = '\n';
+        public const int LARGEST_POSSIBLE_NUMBER = 1000;
     }
 }

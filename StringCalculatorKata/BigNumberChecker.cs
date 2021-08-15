@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace StringCalculatorKata
 {
-    public class BigNumberChecker : INumberChecker
+    public class BigNumberChecker
     {
-        public List<int> IgnoreBigNumbers(List<int> listOfNumbers)
+        public virtual List<int> IgnoreBigNumbers(List<int> listOfNumbers)
         {
             return (from num in listOfNumbers
-                    where num <= Constants.largestPossibleNumber
+                    where num <= Constants.LARGEST_POSSIBLE_NUMBER
                     select num).ToList<int>();
         }
     }
