@@ -1,5 +1,6 @@
 using FluentAssertions;
 using Moq;
+using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -10,7 +11,6 @@ namespace StringCalculatorKata.Tests
         private readonly DelimeterExtractor _delimeterExtractor;
         private readonly NumberExtractor _numberExtractor;
         private readonly StringCalculator _stringCalculator;
-
 
         public StringCalculatorShould()
         {
@@ -64,6 +64,18 @@ namespace StringCalculatorKata.Tests
             var actualSum = _stringCalculator.Add(_numberExtractor.FindListOfNumbers(stringOfNumbers, _delimeterExtractor.FindDelimeter(stringOfNumbers)));
             //Assert
             Assert.Equal(expectedSum, actualSum);
+        }
+
+        [Fact]
+        public void ThrowExceptionWhenANumberIsNegative()
+        {
+            //Arrange
+            var listOFNumbers = new List<int> { -1, -2, 3 };
+            var checkNumbers = new NegativeNumberChecker();
+            //Assert
+            checkNumbers.Invoking(x => x.CheckForNegativeNumbers(listOFNumbers))
+            .Should().Throw<Exception>()
+            .WithMessage("Negatives are not allowed : -1,-2");
         }
     }
 }
