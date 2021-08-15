@@ -5,7 +5,7 @@ namespace StringCalculatorKata
 {
     public class StringCalculator
     {
-        public int Add(List<int> listOfNumbers)
+        public virtual int Add(List<int> listOfNumbers)
         {
             return listOfNumbers.Aggregate((x, y) => x + y);
         }
